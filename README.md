@@ -1,10 +1,6 @@
 # sb-cors
 CORS 학습을 위한 예시(Ubuntu22.04, Springboot 3, gradle, Java 17)
 
-## 구조 설명
-
-
-
 ## Installation
 ### 초기 설정
 - CORS 설정이 되어있는 Springboot 프로젝트를 만들고 실행시킴. 그에 필요한 패키지 자동 설치
@@ -100,3 +96,75 @@ See 'snap info gradle' for additional versions.
 export PATH=$PATH:/opt/gradle/bin
 source /etc/profile.d/gradle.sh
 ```
+
+## 스크립트로 생성되는 프로젝트 구조 설명
+- Spring Boot 애플리케이션을 개발하기 위한 표준 Gradle 프로젝트 구조임. src 디렉토리에는 소스 코드가 위치하며, build 디렉토리는 빌드 결과물이 저장됨. build.gradle과 settings.gradle 파일은 Gradle 빌드 도구를 사용하여 프로젝트를 설정하고 관리하는 데 사용됨.
+
+- build
+```sh
+.
+├── build
+│   ├── classes
+│   │   └── java
+│   │       └── main
+│   │           └── com
+│   │               └── example
+│   │                   └── corsdemo
+│   │                       ├── CorsDemoApplication.class
+│   │                       ├── HelloController.class
+│   │                       └── WebConfig.class
+│   ├── generated
+│   │   └── sources
+│   │       ├── annotationProcessor
+│   │       │   └── java
+│   │       │       └── main
+│   │       └── headers
+│   │           └── java
+│   │               └── main
+│   ├── resolvedMainClassName
+│   └── tmp
+│       └── compileJava
+│           └── previous-compilation-data.bin
+├── build.gradle
+├── settings.gradle
+└── src
+    └── main
+        └── java
+            └── com
+                └── example
+                    └── corsdemo
+                        ├── CorsDemoApplication.java
+                        ├── HelloController.java
+                        └── WebConfig.java
+
+23 directories, 10 files
+```
+- 1. `build` 디렉토리
+  - `build` 디렉토리는 Gradle 빌드 도구가 생성한 파일들을 포함함. 프로젝트가 빌드될 때 자동으로 생성됨.
+- 2. build.gradle
+  - build.gradle 파일은 Gradle 빌드 스크립트임. 이 파일에는 프로젝트의 의존성, 플러그인, 빌드 설정 등이 정의되어 있음. Spring Boot 프로젝트를 설정하고 빌드하는 데 사용됨.
+- 3. settings.gradle
+  - settings.gradle 파일은 Gradle 설정 파일임. 이 파일에는 프로젝트의 루트 이름과 포함된 서브 프로젝트들이 정의되어 있음.
+- 4. src/main/java/com/example/corsdemo
+  - src 디렉토리는 소스 파일들이 위치하는 곳임. src/main/java는 메인 소스 파일들을 포함하며, com/example/corsdemo는 패키지 구조를 나타냄.
+  - CorsDemoApplication.java
+    - Spring Boot 애플리케이션의 메인 클래스임. 애플리케이션의 진입점으로, Spring Boot 애플리케이션을 실행하는 역할을 함.
+  - HelloController.java
+    - 간단한 REST 컨트롤러임. /hello 경로로 GET 요청을 받으면 "Hello, World!" 문자열을 반환함.
+  - WebConfig.java
+    - Spring MVC 설정 클래스임. CORS 설정을 포함하고 있어 특정 출처에서 오는 요청을 허용함.
+    - 다음 코드 조각은 Spring MVC의 CORS 설정을 구성하는 부분임:
+    ```java
+    registry.addMapping("/**")
+            .allowedOrigins("http://localhost:3000")  // 허용할 출처
+            .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD")
+            .allowCredentials(true);
+    ```
+    -  `registry.addMapping("/**")`:
+        -  모든 경로에 대해 CORS 설정을 적용함.
+    -  `.allowedOrigins("http://localhost:3000")`:
+        -  `http://localhost:3000` 도메인에서 오는 요청을 허용함.
+    -  `.allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD")`:
+        -  HTTP 메서드 `GET`, `POST`, `PUT`, `DELETE`, `HEAD`를 허용함.
+    -  `.allowCredentials(true)`:
+        -  자격 증명(쿠키, 인증 헤더 등)을 포함한 요청을 허용함.
