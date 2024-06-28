@@ -3,6 +3,11 @@
 - `setup-springboot.sh` 를 실행시켜서 `cors-demo` 프로젝트에 CORS 를 테스트할 수 있는 SpringBoot 프로젝트를 생성.
 
 ## Installation
+### EC2 사용할 경우, 보안 그룹(Security Group)에 8080 port 가 open 되어있는지 확인
+- Springboot 애플리케이션은 기본적으로 8080 port 로 실행되기 때문에 해당 port 가 open 되어있어야 외부와 통신할 수 있음. 
+![security group - 8080](https://github.com/ohahohah/sb-cors/assets/17819874/f4adb98d-5862-4b9e-b4d0-13ab47ac1694)
+
+
 ### 초기 설정
 - `setup-springboot.sh`으로 CORS 설정이 되어있는 Springboot 프로젝트를 만들고 실행시킴. 그에 필요한 패키지 자동 설치
 1. Ubuntu 환경에 접속
