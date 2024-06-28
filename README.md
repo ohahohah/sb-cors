@@ -1,9 +1,10 @@
 # sb-cors
-CORS 학습을 위한 예시(Ubuntu22.04, Springboot 3, gradle, Java 17)
+- CORS 학습을 위한 예시 프로젝트 생성(Ubuntu22.04, Springboot 3, gradle, Java 17)
+- `setup-springboot.sh` 를 실행시켜서 `cors-demo` 프로젝트에 CORS 를 테스트할 수 있는 SpringBoot 프로젝트를 생성.
 
 ## Installation
 ### 초기 설정
-- CORS 설정이 되어있는 Springboot 프로젝트를 만들고 실행시킴. 그에 필요한 패키지 자동 설치
+- `setup-springboot.sh`으로 CORS 설정이 되어있는 Springboot 프로젝트를 만들고 실행시킴. 그에 필요한 패키지 자동 설치
 1. Ubuntu 환경에 접속
 1-1. (선택사항) git 이 설치되어있지 않다면 패키지 설치 
 ```sh
