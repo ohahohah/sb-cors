@@ -123,5 +123,8 @@ public class HelloController {
 }
 EOL
 
+# Ensure environment variables are set correctly
+source /etc/profile.d/gradle.sh
+
 # Build and run the Spring Boot application
 gradle bootRun
