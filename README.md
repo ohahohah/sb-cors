@@ -98,6 +98,64 @@ export PATH=$PATH:/opt/gradle/bin
 source /etc/profile.d/gradle.sh
 ```
 
+## CORS 테스트 - Postman을 사용하여 EC2 인스턴스의 Spring Boot 애플리케이션을 테스트
+- Postman을 사용하여 EC2 인스턴스의 Spring Boot 애플리케이션을 테스트하는 방법. 이 단계를 따라 Postman을 사용하여 EC2 인스턴스의 Spring Boot 애플리케이션 API를 테스트할 수 있음. CORS 설정이 올바르게 되어 있으면, 요청이 정상적으로 처리되고 응답을 받을 수 있음.
+
+### 사전 준비
+1. **EC2 인스턴스에서 Spring Boot 애플리케이션 실행**:
+   `setup-springboot.sh` 스크립트를 성공적으로 실행하고 Spring Boot 애플리케이션이 실행 중인지 확인함.
+2. **보안 그룹 설정**:
+   EC2 인스턴스의 보안 그룹이 포트 8080을 허용하도록 설정되어 있는지 확인함.
+
+### Postman 사용하여 Spring Boot 애플리케이션 테스트
+
+#### 1. Postman 설치 및 실행
+
+1. **Postman 설치**:
+   -  [Postman 공식 웹사이트](https://www.postman.com/downloads/)에서 Postman을 다운로드하고 설치함.
+2. **Postman 실행**:
+   -  Postman을 실행함.
+
+#### 2. 새로운 요청 생성
+
+1. **새 요청 생성**:
+   -  Postman을 열고, 상단의 "New" 버튼을 클릭함.
+   -  "HTTP Request"를 선택함.
+
+2. **GET 요청 설정**:
+   -  요청 유형을 `GET`으로 설정함.
+   -  URL 입력란에 EC2 인스턴스의 공인 IP 주소와 포트를 입력함. 예를 들어, `http://your-ec2-ip:8080/hello`.
+   -  예: `http://3.123.45.67:8080/hello` (여기서 `3.123.45.67`은 EC2 인스턴스의 공인 IP 주소임).
+
+3. **헤더 설정**:
+   -  "Headers" 탭을 선택하고, 새로운 헤더를 추가함.
+   -  Key: `Origin`
+   -  Value: `http://localhost:3000`
+   -  이는 로컬에서 테스트하는 것처럼 CORS 헤더를 설정하는 것임.
+
+4. **요청 전송**:
+   -  "Send" 버튼을 클릭하여 요청을 전송함.
+
+#### 3. 응답 확인
+
+1. **정상 응답**:
+   -  CORS 설정이 올바르게 되어 있다면, 응답 상태 코드가 `200 OK`로 표시되고 응답 본문에 "Hello, World!"가 표시됨.
+   -  예시 응답:
+     ```plaintext
+     Hello, World!
+     ```
+
+2. **CORS 오류 확인**:
+   -  만약 CORS 설정에 문제가 있다면, Postman 콘솔에서 오류 메시지를 확인할 수 있음.
+   -  테스트를 위해  "Headers" 탭의 Key: `Origin` 의 Value를 `http://localhost:3001` 로 3000 이 아닌 다른 포트 주소를 사용해조기
+   -  CORS 오류 예시:
+     ```plaintext
+     Access to fetch at 'http://your-ec2-ip:8080/hello' from origin 'http://localhost:3000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+     ```
+     ![postman-cors-error](https://github.com/ohahohah/sb-cors/assets/17819874/042e9384-7b6d-4513-b3c8-3c647409e96e)
+
+
+
 ## 스크립트로 생성되는 프로젝트 구조 설명
 - Spring Boot 애플리케이션을 개발하기 위한 표준 Gradle 프로젝트 구조임. src 디렉토리에는 소스 코드가 위치하며, build 디렉토리는 빌드 결과물이 저장됨. build.gradle과 settings.gradle 파일은 Gradle 빌드 도구를 사용하여 프로젝트를 설정하고 관리하는 데 사용됨.
 
